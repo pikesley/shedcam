@@ -16,10 +16,29 @@ body {
   background-image: url('/assets/images/green-planks.jpg');
 }
 
-img {
+.img-thumbnail {
   background-color: $brand-secondary-1;
+  border-color: $brand-primary;
+}
+
+#latest-image {
+  position:relative;
+}
+
+.timestamp {
+    bottom: 0px;
+    right: 10px;
+    position: absolute;
+    padding: 10px;
+    background-color: transparentize($brand-complement, 0.5);
+    font-family: $font-fixed;
+    border: 1px solid $brand-primary;
 }
 
 .footer {
   background: transparent;
+  font-size: 2em;
+  a {
+    color: $brand-secondary-2;
+  }
 }
