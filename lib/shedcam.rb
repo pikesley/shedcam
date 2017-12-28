@@ -17,7 +17,7 @@ module Shedcam
 
       respond_to do |wants|
         wants.html do
-          @timestamp = Marshal.load File.open 'public/assets/images/latest.timestamp'
+          @timestamp = Marshal.load File.open 'config/latest.timestamp'
           erb :index
         end
       end

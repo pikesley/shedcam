@@ -29,19 +29,29 @@ namespace :photo do
   now = DateTime.now
 
   desc 'take photo'
-  task :capture do
-    daylight = Marshal.load File.open 'config/daylight.times'
-    if (now > daylight[:light]) && (now < daylight[:dark])
+  task :snap do
+    if daylight now
       filename = "%s.jpg" % now.iso8601
       path = "%s/%s" % [Shedcam::CONFIG['images'], now.strftime('%Y/%m/%d')]
       FileUtils.mkdir_p path
       sh "raspistill -o %s/%s" % [path, filename]
-      FileUtils.cp "%s/%s" % [path, filename], "public/assets/images/latest.jpg"
+      FileUtils.cp "%s/%s" % [path, filename], 'public/assets/images/latest.jpg'
+    end
+  end
 
-      File.open "public/assets/images/latest.timestamp", 'w' do |f|
+  desc 'generate timestamp'
+  task :timestamp do
+    if daylight now
+      File.open 'config/latest.timestamp', 'w' do |f|
         Marshal.dump now, f
       end
     end
+  end
+
+  desc 'capture and timestamp photo'
+  task :capture do
+    Rake::Task['photo:snap'].invoke
+    Rake::Task['photo:timestamp'].invoke
   end
 end
 
@@ -75,4 +85,9 @@ namespace :app do
     sh 'sudo systemctl enable shedcam.target'
     sh 'sudo systemctl daemon-reload'
   end
+end
+
+def daylight now
+  daylight = Marshal.load File.open 'config/daylight.times'
+  (now > daylight[:light]) && (now < daylight[:dark])
 end
