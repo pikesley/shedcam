@@ -12,12 +12,14 @@
 body {
   text-align: center;
   color: $brand-primary;
-  font-family: $font-primary;}
-
-h1 {
-
+  font-family: $font-primary;
+  background-image: url('/assets/images/green-planks.jpg');
 }
 
-.img-responsive {
-  max-height: 70%;
+img {
+  background-color: $brand-secondary-1;
+}
+
+.footer {
+  background: transparent;
 }

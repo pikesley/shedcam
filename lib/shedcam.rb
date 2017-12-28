@@ -20,12 +20,6 @@ module Shedcam
           @timestamp = Marshal.load File.open 'public/assets/images/latest.timestamp'
           erb :index
         end
-
-        wants.json do
-          {
-            app: 'Shedcam'
-          }.to_json
-        end
       end
     end
 

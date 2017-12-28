@@ -8826,9 +8826,15 @@ body {
   text-align: center;
   color: #aa9539;
   font-family: "Slabo 27px";
+  background-image: url("/assets/images/green-planks.jpg");
 }
 
-/* line 21, ../sass/styles.scss */
-.img-responsive {
-  max-height: 70%;
+/* line 19, ../sass/styles.scss */
+img {
+  background-color: #6b692b;
+}
+
+/* line 23, ../sass/styles.scss */
+.footer {
+  background: transparent;
 }
