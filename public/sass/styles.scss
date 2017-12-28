@@ -9,6 +9,10 @@
 @import 'nav';
 //@import 'github-corner';
 
+body {
+  text-align: center;
+}
+
 h1 {
   color: $brand-primary;
   font-family: $font-primary;

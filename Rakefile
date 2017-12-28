@@ -28,10 +28,18 @@ namespace :photo do
   desc 'take photo'
   task :capture do
     now = DateTime.now
-    filename = "%s.jpg" % now.strftime('%Y%m%d%H%M%S')
+    # filename = "%s.jpg" % now.strftime('%Y%m%d%H%M%S')
+    filename = "%s.jpg" % now.iso8601
     path = "%s/%s" % [Shedcam::CONFIG['images'], now.strftime('%Y/%m/%d')]
     FileUtils.mkdir_p path
     sh "raspistill -o %s/%s" % [path, filename]
     FileUtils.cp "%s/%s" % [path, filename], "public/assets/images/latest.jpg"
+  end
+end
+
+namespace :schedule do
+  desc 'update schedule'
+  task :update do
+    sh 'bundle exec whenever --update-crontab --user pi'
   end
 end

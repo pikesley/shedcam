@@ -9,6 +9,7 @@ gem 'compass'
 gem 'bootstrap-sass'
 gem 'erubis'
 gem 'puma'
+gem 'whenever', :require => false
 
 group :test do
   gem 'rspec'
