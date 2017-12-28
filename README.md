@@ -10,7 +10,7 @@ Bought a [ZeroView](https://thepihut.com/products/zeroview) in order to make som
 
 ## Installing it
 
-First, you're going to want a recent Ruby on your Pi (I'm currently on 2.4.2). I swear by [rbenv](https://github.com/rbenv/rbenv) these days, but I understand other methods are available. You'll also want a big SD card in the Pi, because the images are pretty big. Then
+First, you're going to want a recent Ruby on your Pi (I'm currently on 2.4.2). I swear by [rbenv](https://github.com/rbenv/rbenv) these days, but I understand other methods are available. You'll also want a big SD card in the Pi, because the images are around 4 megs each. Then
 
 ```
 git clone https://github.com/pikesley/shedcam
@@ -60,11 +60,11 @@ It drops the photos into a directory called (by default) `timelapse-images`, wit
 timelapse-images/2017/12/28/2017-12-28T13:53:16+00:00.jpg
 ```
 
-so you ought to be able to `rsync` those out of there easily enough (I've not really thought that far ahead to be honest). Also, a quick back-of-a-fag-packet calculation suggest that running at full-res like this is going to generate 5 gigs of images per day. I might need to think about this...
+so you ought to be able to `rsync` those out of there easily enough (I've not really thought that far ahead to be honest). Also, a quick back-of-a-fag-packet calculation suggest that running at full-res like this is going to generate 5 gigs of images per day. I might need to have a think about this...
 
 ## Making a movie
 
-Get the images somewhere you have `ffmpeg` installed (I can very much recommended not doing this on the Pi), then some magic spells I've found effective would be something like:
+Get the images somewhere you have `ffmpeg` installed (I can very much recommended not doing this on the Pi), then try some magic spells that I've found effective:
 
 ```
 ffmpeg -pattern_type glob -i "*.jpg" -c:v libx264 -vf fps=25 -pix_fmt yuv420p movie.mp4
