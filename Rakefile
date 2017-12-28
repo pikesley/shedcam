@@ -1,3 +1,6 @@
+require 'httparty'
+require 'json'
+
 require File.join(File.dirname(__FILE__), 'lib/shedcam.rb')
 
 unless ENV['RACK_ENV'] == 'production'
@@ -27,14 +30,17 @@ namespace :photo do
 
   desc 'take photo'
   task :capture do
-    filename = "%s.jpg" % now.iso8601
-    path = "%s/%s" % [Shedcam::CONFIG['images'], now.strftime('%Y/%m/%d')]
-    FileUtils.mkdir_p path
-    sh "raspistill -o %s/%s" % [path, filename]
-    FileUtils.cp "%s/%s" % [path, filename], "public/assets/images/latest.jpg"
+    daylight = Marshal.load File.open 'config/daylight.times'
+    if (now > daylight[:light]) && (now < daylight[:dark])
+      filename = "%s.jpg" % now.iso8601
+      path = "%s/%s" % [Shedcam::CONFIG['images'], now.strftime('%Y/%m/%d')]
+      FileUtils.mkdir_p path
+      sh "raspistill -o %s/%s" % [path, filename]
+      FileUtils.cp "%s/%s" % [path, filename], "public/assets/images/latest.jpg"
 
-    File.open "public/assets/images/latest.timestamp", 'w' do |f|
-      Marshal.dump now, f
+      File.open "public/assets/images/latest.timestamp", 'w' do |f|
+        Marshal.dump now, f
+      end
     end
   end
 end
@@ -43,6 +49,21 @@ namespace :schedule do
   desc 'update schedule'
   task :update do
     sh 'bundle exec whenever --update-crontab --user pi'
+  end
+
+  desc 'get sunrise and sunset'
+  task :daylight do
+    res = HTTParty.get "https://api.sunrise-sunset.org/json?lat=%s&lng=%s" % [
+      Shedcam::CONFIG['latitude'],
+      Shedcam::CONFIG['longitude']
+    ]
+    data = (JSON.parse res.body)['results']
+    File.open 'config/daylight.times', 'w' do |f|
+      Marshal.dump ({
+        light: (DateTime.parse data['astronomical_twilight_begin']),
+        dark: (DateTime.parse data['astronomical_twilight_end'])
+      }), f
+    end
   end
 end
 

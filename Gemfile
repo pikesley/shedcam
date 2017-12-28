@@ -11,6 +11,7 @@ gem 'erubis'
 gem 'puma'
 gem 'whenever', :require => false
 gem 'foreman'
+gem 'httparty'
 
 group :test do
   gem 'rspec'

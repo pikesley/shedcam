@@ -5,3 +5,7 @@ set :output, 'logs/cron.log'
 every Shedcam::CONFIG['interval'].minutes do
   rake 'photo:capture'
 end
+
+every :day, :at => '01:00' do
+  rake "schedule:daylight"
+end

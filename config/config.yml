@@ -1,2 +1,6 @@
 interval: 1 # minutes
+
+latitude: 51.5011652
+longitude: -0.1423445
+
 images: timelapse-images
