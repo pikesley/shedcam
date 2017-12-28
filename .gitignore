@@ -2,5 +2,4 @@ coverage/
 .sass-cache
 timelapse-images
 public/assets/images/latest.jpg
-public/assets/images/latest.timestamp
 logs
