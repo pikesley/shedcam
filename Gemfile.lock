@@ -55,6 +55,8 @@ GEM
     erubis (2.7.0)
     execjs (2.7.0)
     ffi (1.9.18)
+    foreman (0.84.0)
+      thor (~> 0.19.1)
     formatador (0.2.5)
     guard (2.14.1)
       formatador (>= 0.2.4)
@@ -178,6 +180,7 @@ DEPENDENCIES
   compass
   coveralls
   erubis
+  foreman
   guard
   guard-jasmine
   guard-rspec

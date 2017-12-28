@@ -17,9 +17,7 @@ module Shedcam
 
       respond_to do |wants|
         wants.html do
-          @content = '<h1>Hello from Shedcam</h1>'
-          @title = 'Shedcam'
-          @github_url = CONFIG['github_url']
+          @timestamp = Marshal.load File.open 'public/assets/images/latest.timestamp'
           erb :index
         end
 

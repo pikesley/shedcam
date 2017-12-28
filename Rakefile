@@ -25,15 +25,19 @@ namespace :run do
 end
 
 namespace :photo do
+  now = DateTime.now
+
   desc 'take photo'
   task :capture do
-    now = DateTime.now
-    # filename = "%s.jpg" % now.strftime('%Y%m%d%H%M%S')
     filename = "%s.jpg" % now.iso8601
     path = "%s/%s" % [Shedcam::CONFIG['images'], now.strftime('%Y/%m/%d')]
     FileUtils.mkdir_p path
     sh "raspistill -o %s/%s" % [path, filename]
     FileUtils.cp "%s/%s" % [path, filename], "public/assets/images/latest.jpg"
+
+    File.open "public/assets/images/latest.timestamp", 'w' do |f|
+      Marshal.dump now, f
+    end
   end
 end
 
@@ -41,5 +45,15 @@ namespace :schedule do
   desc 'update schedule'
   task :update do
     sh 'bundle exec whenever --update-crontab --user pi'
+  end
+end
+
+namespace :app do
+  desc 'install start-up scripts'
+  task :install do
+    sh 'bundle exec foreman export systemd -u pi -a shedcam /tmp/systemd/'
+    sh 'sudo rsync -av /tmp/systemd/ /etc/systemd/system'
+    sh 'sudo systemctl enable shedcam.target'
+    sh 'sudo systemctl daemon-reload'
   end
 end

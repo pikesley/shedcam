@@ -11,13 +11,13 @@
 
 body {
   text-align: center;
-}
+  color: $brand-primary;
+  font-family: $font-primary;}
 
 h1 {
-  color: $brand-primary;
-  font-family: $font-primary;
+
 }
 
-img {
-  width: 50%;
+.img-responsive {
+  max-height: 70%;
 }

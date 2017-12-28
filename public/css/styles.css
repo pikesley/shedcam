@@ -8824,15 +8824,11 @@ body {
 /* line 12, ../sass/styles.scss */
 body {
   text-align: center;
-}
-
-/* line 16, ../sass/styles.scss */
-h1 {
   color: #aa9539;
   font-family: "Slabo 27px";
 }
 
 /* line 21, ../sass/styles.scss */
-img {
-  width: 50%;
+.img-responsive {
+  max-height: 70%;
 }
