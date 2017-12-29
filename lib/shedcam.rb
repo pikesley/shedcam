@@ -17,12 +17,13 @@ module Shedcam
 
       respond_to do |wants|
         wants.html do
+          @title = 'Shedcam'
           begin
             @timestamp = Marshal.load File.open 'config/latest.timestamp'
           rescue Errno::ENOENT
             @timestamp = Date.parse '1970-01-01'
           end
-          
+
           erb :index
         end
       end
