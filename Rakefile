@@ -39,10 +39,10 @@ namespace :photo do
 
   desc 'generate timestamp'
   task :timestamp do
-    #if Shedcam.daylight now
+    if Shedcam.daylight now
       File.open 'config/latest.timestamp', 'w' do |f|
         Marshal.dump now, f
-    #  end
+      end
     end
   end
 
