@@ -1,5 +1,3 @@
-require 'httparty'
-
 require File.join(File.dirname(__FILE__), 'lib/shedcam.rb')
 
 unless ENV['RACK_ENV'] == 'production'
@@ -29,21 +27,22 @@ namespace :photo do
 
   desc 'take photo'
   task :snap do
-    if daylight now
-      filename = "%s.jpg" % now.iso8601
-      path = "%s/%s" % [Shedcam::CONFIG['images'], now.strftime('%Y/%m/%d')]
+    if Shedcam.daylight now
+      filename = Shedcam.jpg_name now
+      path = "%s/%s" % [Shedcam::CONFIG['images'], Shedcam.jpg_path(now)]
+      fullpath = "%s/%s" % [path, filename]
       FileUtils.mkdir_p path
-      sh "raspistill -o %s/%s" % [path, filename]
-      FileUtils.cp "%s/%s" % [path, filename], 'public/assets/images/latest.jpg'
+      sh "raspistill -o %s" % fullpath
+      FileUtils.cp fullpath, 'public/assets/images/latest.jpg'
     end
   end
 
   desc 'generate timestamp'
   task :timestamp do
-    if daylight now
+    #if Shedcam.daylight now
       File.open 'config/latest.timestamp', 'w' do |f|
         Marshal.dump now, f
-      end
+    #  end
     end
   end
 
@@ -60,19 +59,9 @@ namespace :schedule do
     sh 'bundle exec whenever --update-crontab --user pi'
   end
 
-  desc 'get sunrise and sunset'
+  desc 'get sunrise and sunset data'
   task :daylight do
-    res = HTTParty.get "https://api.sunrise-sunset.org/json?lat=%s&lng=%s" % [
-      Shedcam::CONFIG['latitude'],
-      Shedcam::CONFIG['longitude']
-    ]
-    data = (JSON.parse res.body)['results']
-    File.open 'config/daylight.times', 'w' do |f|
-      Marshal.dump ({
-        light: (DateTime.parse data['astronomical_twilight_begin']),
-        dark: (DateTime.parse data['astronomical_twilight_end'])
-      }), f
-    end
+    Shedcam.get_daylight_times
   end
 end
 
@@ -84,9 +73,4 @@ namespace :app do
     sh 'sudo systemctl enable shedcam.target'
     sh 'sudo systemctl daemon-reload'
   end
-end
-
-def daylight now
-  daylight = Marshal.load File.open 'config/daylight.times'
-  (now > daylight[:light]) && (now < daylight[:dark])
 end

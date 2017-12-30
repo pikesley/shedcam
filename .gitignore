@@ -3,3 +3,5 @@ coverage/
 timelapse-images
 public/assets/images/latest.jpg
 logs
+config/daylight.times
+tmp/

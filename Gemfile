@@ -22,4 +22,6 @@ group :test do
   gem 'jasmine'
   gem 'pry'
   gem 'actionpack'
+  gem 'curacao'
+  gem 'timecop'
 end

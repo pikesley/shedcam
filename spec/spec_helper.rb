@@ -1,3 +1,5 @@
+require 'curacao'
+require 'timecop'
 require 'coveralls'
 Coveralls.wear_merged!
 

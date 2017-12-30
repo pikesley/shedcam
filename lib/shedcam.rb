@@ -2,16 +2,13 @@ require 'sinatra/base'
 require 'tilt/erubis'
 require 'json'
 require 'yaml'
+require 'httparty'
 
 require_relative 'shedcam/helpers'
 require_relative 'shedcam/racks'
 
 module Shedcam
   class App < Sinatra::Base
-    helpers do
-      include Shedcam::Helpers
-    end
-
     get '/' do
       headers 'Vary' => 'Accept'
 
