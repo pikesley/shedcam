@@ -3,6 +3,7 @@ require 'tilt/erubis'
 require 'json'
 require 'yaml'
 require 'httparty'
+require 'rsync'
 
 require_relative 'shedcam/helpers'
 require_relative 'shedcam/racks'

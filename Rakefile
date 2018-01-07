@@ -53,6 +53,13 @@ namespace :photo do
   end
 end
 
+namespace :data do
+  desc 'rsync photos from shedcam'
+  task :sync do
+    Rsync.run "%s:shedcam/timelapse-images/" % Shedcam::CONFIG['shedcam-address'], 'timelapse-images-archive', ['-a'] #, '--dry-run', '--remove-source-files']
+  end
+end
+
 namespace :schedule do
   desc 'update schedule'
   task :update do

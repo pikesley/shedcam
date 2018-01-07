@@ -1,6 +1,7 @@
 coverage/
 .sass-cache
 timelapse-images
+timelapse-images-archive
 public/assets/images/latest.jpg
 logs
 config/daylight.times

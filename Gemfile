@@ -12,6 +12,7 @@ gem 'puma'
 gem 'whenever', :require => false
 gem 'foreman'
 gem 'httparty'
+gem 'rsync'
 
 group :test do
   gem 'rspec'
