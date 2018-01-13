@@ -1,0 +1,5 @@
+# raspistill_flags:
+#   - -vf
+#   - -hf
+#   - --awb cloud
+#   - --metering spot
