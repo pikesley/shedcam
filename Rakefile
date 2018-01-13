@@ -61,9 +61,14 @@ namespace :data do
 end
 
 namespace :schedule do
-  desc 'update schedule'
-  task :update do
-    sh 'bundle exec whenever --update-crontab --user pi'
+  desc 'update shedcam schedule'
+  task :shedcam do
+    sh 'bundle exec whenever --load-file config/shedcam-schedule.rb --update-crontab --user pi'
+  end
+
+  desc 'update archive schedule'
+  task :archive do
+    sh 'bundle exec whenever --load-file config/archive-schedule.rb --update-crontab --user pi'
   end
 
   desc 'get sunrise and sunset data'
