@@ -81,3 +81,10 @@ namespace :app do
     sh 'sudo systemctl daemon-reload'
   end
 end
+
+namespace :ssh do
+  desc 'copy keys from archive server to shedcam'
+  task :send_keys do
+    sh "ssh-copy-id pi@%s" % Shedcam::CONFIG['shedcam-address']
+  end
+end
