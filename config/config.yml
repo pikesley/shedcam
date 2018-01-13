@@ -3,6 +3,12 @@ interval: 1 # minutes
 latitude: 51.5011652
 longitude: -0.1423445
 
+raspistill_flags:
+  - --awb cloud
+  - --metering spot
+
+
 images: timelapse-images
+archive: ~/Pictures/shedcam-archive
 
 shedcam-address: 192.168.1.40

@@ -21,13 +21,25 @@ module Shedcam
 
     it 'generates a filename' do
       Timecop.freeze(DateTime.parse '2017-12-30T12:31:00') do
-        expect(Shedcam.jpg_name DateTime.now).to eq '2017-12-30T12:31:00+00:00.jpg'
+        expect(Shedcam.jpg_name DateTime.now).to eq '20171230T123100.jpg'
       end
     end
 
     it 'generates a path' do
       Timecop.freeze(DateTime.parse '2017-12-30T12:31:00') do
         expect(Shedcam.jpg_path DateTime.now).to eq '/2017/12/30'
+      end
+    end
+
+    context 'raspistill flags' do
+      it 'assembles the raspistill_flags' do
+        CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), '../fixtures/raspistill_config.yml'))
+        expect(Shedcam.raspistill_flags).to eq ' -vf -hf --awb cloud --metering spot'
+      end
+
+      it 'copes with bad config' do
+        CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), '../fixtures/raspistill_config_bad.yml'))
+        expect(Shedcam.raspistill_flags).to eq ''
       end
     end
   end

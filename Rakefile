@@ -32,7 +32,7 @@ namespace :photo do
       path = "%s/%s" % [Shedcam::CONFIG['images'], Shedcam.jpg_path(now)]
       fullpath = "%s/%s" % [path, filename]
       FileUtils.mkdir_p path
-      sh "raspistill -o %s" % fullpath
+      sh "raspistill --output %s%s" % [fullpath, Shedcam.raspistill_flags]
       FileUtils.cp fullpath, 'public/assets/images/latest.jpg'
     end
   end
@@ -56,7 +56,7 @@ end
 namespace :data do
   desc 'rsync photos from shedcam'
   task :sync do
-    Rsync.run "%s:shedcam/timelapse-images/" % Shedcam::CONFIG['shedcam-address'], 'timelapse-images-archive', ['-a'] #, '--dry-run', '--remove-source-files']
+    Rsync.run "pi@%s:shedcam/timelapse-images/" % Shedcam::CONFIG['shedcam-address'], Shedcam::CONFIG['archive'], ['-a'] #, '--dry-run', '--remove-source-files']
   end
 end
 

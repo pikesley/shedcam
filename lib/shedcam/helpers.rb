@@ -21,10 +21,18 @@ module Shedcam
   end
 
   def self.jpg_name now
-    "%s.jpg" % now.iso8601
+    "%s.jpg" % now.strftime('%Y%m%dT%H%M%S')
   end
 
   def self.jpg_path now
     now.strftime '/%Y/%m/%d'
+  end
+
+  def self.raspistill_flags
+    begin
+      return " %s" % Shedcam::CONFIG['raspistill_flags'].join(' ')
+    rescue NoMethodError
+      return ''
+    end
   end
 end
