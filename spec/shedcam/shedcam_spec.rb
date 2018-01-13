@@ -7,26 +7,32 @@ module Shedcam
       end
 
       it 'knows it is daylight at midday' do
-        Timecop.freeze(DateTime.parse '2017-12-30T12:00:00') do
+        Timecop.freeze DateTime.parse '2017-12-30T12:00:00' do
           expect(Shedcam.daylight DateTime.now).to be true
         end
       end
 
       it 'knows it is not daylight at midnight' do
-        Timecop.freeze(DateTime.parse '2017-12-30T00:00:00') do
+        Timecop.freeze DateTime.parse '2017-12-30T00:00:00' do
           expect(Shedcam.daylight DateTime.now).to be false
+        end
+      end
+
+      it 'checks only the time, not the date' do
+        Timecop.freeze DateTime.parse '2018-01-13T12:00:00' do
+          expect(Shedcam.daylight DateTime.now).to be true
         end
       end
     end
 
     it 'generates a filename' do
-      Timecop.freeze(DateTime.parse '2017-12-30T12:31:00') do
+      Timecop.freeze DateTime.parse '2017-12-30T12:31:00' do
         expect(Shedcam.jpg_name DateTime.now).to eq '20171230T123100.jpg'
       end
     end
 
     it 'generates a path' do
-      Timecop.freeze(DateTime.parse '2017-12-30T12:31:00') do
+      Timecop.freeze DateTime.parse '2017-12-30T12:31:00' do
         expect(Shedcam.jpg_path DateTime.now).to eq '/2017/12/30'
       end
     end

@@ -3,7 +3,12 @@ module Shedcam
 
   def self.daylight now
     daylight = Marshal.load File.open 'config/daylight.times'
-    (now > daylight[:light]) && (now < daylight[:dark])
+    (self.timeonly(now) > self.timeonly(daylight[:light])) &&
+      (self.timeonly(now) < self.timeonly(daylight[:dark]))
+  end
+
+  def self.timeonly datetime
+    datetime.strftime '%H%M%S'
   end
 
   def self.get_daylight_times
